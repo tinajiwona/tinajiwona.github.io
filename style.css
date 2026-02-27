@@ -1,143 +1,232 @@
-/* 整体游戏背景和字体 */
-body {
-  background-color: #fce4ec; /* 浅浅的樱花粉背景 */
-  font-family: 'Comic Sans MS', 'PingFang SC', sans-serif; /* 可爱的字体 */
+/* 全局重置与基础设定 */
+* {
+  box-sizing: border-box;
   margin: 0;
-  padding: 20px;
+  padding: 0;
 }
 
-/* 主容器：左右分栏 */
-.game-world {
+body {
+  background-color: #0b1121; /* 深邃太空蓝 */
+  color: #a0aec0; /* 极客灰 */
+  font-family: 'Inter', 'SF Pro Text', 'PingFang SC', sans-serif;
+  line-height: 1.6;
+  padding: 40px 20px;
+}
+
+/* 科技感网格背景图层 */
+.tech-bg {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background-image: 
+    linear-gradient(rgba(11, 17, 33, 0.9), rgba(11, 17, 33, 0.9)),
+    linear-gradient(#1e293b 1px, transparent 1px),
+    linear-gradient(90deg, #1e293b 1px, transparent 1px);
+  background-size: 100% 100%, 30px 30px, 30px 30px;
+  z-index: -1;
+}
+
+/* 核心容器：毛玻璃效果 */
+.dashboard-container {
   display: flex;
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
-  background: white;
-  border-radius: 20px;
-  border: 4px solid #333; /* 粗边框更有游戏感 */
-  box-shadow: 8px 8px 0px #ffb7b2; /* 可爱的彩色阴影 */
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid #1e293b;
+  border-radius: 12px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  height: 85vh;
   overflow: hidden;
-  height: 90vh;
 }
 
-/* 左侧菜单 */
+/* ======== 左侧：研究员档案 ======== */
 .sidebar {
-  width: 30%;
-  background-color: #b2e2f2; /* 薄荷蓝 */
-  padding: 30px;
-  border-right: 4px solid #333;
-  text-align: center;
+  width: 320px;
+  flex-shrink: 0;
+  background: rgba(15, 23, 42, 0.9);
+  border-right: 1px solid #1e293b;
+  padding: 40px 30px;
+  display: flex;
+  flex-direction: column;
 }
 
+/* 头像样式处理 */
 .avatar {
-  font-size: 60px;
-  background: white;
-  border: 4px solid #333;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
-  width: 100px;
-  height: 100px;
-  line-height: 100px;
-  margin: 0 auto;
+  object-fit: cover; /* 保证图片不变形 */
+  border: 2px solid #38bdf8; /* 荧光青边框 */
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
+  margin-bottom: 25px;
+}
+
+.name {
+  color: #f8fafc;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 5px;
+  letter-spacing: 1px;
+}
+
+.title {
+  color: #38bdf8;
+  font-size: 14px;
+  margin-bottom: 20px;
+  font-family: monospace;
+}
+
+.contact-info {
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 40px;
 }
 
 .menu {
-  list-style: none;
-  padding: 0;
-  margin-top: 30px;
-  text-align: left;
-}
-
-.menu li {
-  background: white;
-  margin-bottom: 15px;
-  padding: 10px 15px;
-  border-radius: 10px;
-  border: 2px solid #333;
-  box-shadow: 3px 3px 0px #333;
-  cursor: pointer;
-  font-weight: bold;
-  transition: all 0.2s;
-}
-
-.menu li:hover {
-  transform: translateY(-2px);
-  box-shadow: 5px 5px 0px #333;
-  background-color: #fdfd96; /* 悬停变鹅黄色 */
-}
-
-/* 右侧内容区 */
-.main-content {
-  width: 70%;
-  padding: 40px;
-  overflow-y: auto;
-}
-
-.section-title {
-  color: #ff6b6b;
-  border-bottom: 3px dashed #ffb7b2;
-  padding-bottom: 10px;
-}
-
-/* 从下往上的时间轴魔法 */
-.timeline {
   display: flex;
-  flex-direction: column-reverse; /* 就是这句代码让它从下往上的！ */
+  flex-direction: column;
   gap: 15px;
 }
 
-.timeline-item {
-  background: #f8f9fa;
-  padding: 15px;
-  border-left: 5px solid #ffb7b2;
-  border-radius: 0 10px 10px 0;
-}
-
-.date {
-  font-weight: bold;
-  color: #888;
-}
-
-/* 代码终端样式 */
-.mt-top { margin-top: 40px; }
-
-.github-btn {
-  display: inline-block;
-  background: #ff6b6b;
-  color: white;
+.menu-item {
+  color: #94a3b8;
   text-decoration: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  border: 2px solid #333;
-  box-shadow: 3px 3px 0px #333;
-  font-weight: bold;
-  margin-bottom: 20px;
+  font-size: 14px;
+  padding: 10px 15px;
+  border-left: 3px solid transparent;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.02);
 }
 
-.code-box {
-  background: #282a36; /* 暗色终端背景 */
-  border-radius: 10px;
-  border: 2px solid #333;
+.menu-item:hover {
+  color: #38bdf8;
+  border-left: 3px solid #38bdf8;
+  background: rgba(56, 189, 248, 0.05);
+}
+
+/* ======== 右侧：数据展示区 ======== */
+.main-content {
+  flex-grow: 1;
+  padding: 50px;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+.main-content::-webkit-scrollbar { width: 8px; }
+.main-content::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+
+.section-block {
+  margin-bottom: 60px;
+}
+
+.section-header {
+  color: #e2e8f0;
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #1e293b;
+  padding-bottom: 10px;
+}
+
+/* 时间轴 */
+.timeline {
+  border-left: 2px solid #1e293b;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.timeline-item { position: relative; }
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -26px;
+  top: 5px;
+  width: 10px; height: 10px;
+  background: #38bdf8;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #38bdf8;
+}
+
+.time-node { color: #38bdf8; font-family: monospace; font-size: 14px; margin-bottom: 5px; }
+.node-content h3 { color: #f8fafc; font-size: 16px; margin-bottom: 8px; }
+.node-content p { font-size: 14px; line-height: 1.7; }
+
+/* 技术卡片 */
+.tech-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.tech-card {
+  background: rgba(30, 41, 59, 0.4);
+  border: 1px solid #1e293b;
+  padding: 20px;
+  border-radius: 8px;
+  transition: border-color 0.3s;
+}
+.tech-card:hover { border-color: #38bdf8; }
+.tech-card h4 { color: #f8fafc; margin-bottom: 10px; }
+.tech-card p { font-size: 14px; margin-bottom: 5px; }
+.full-width { grid-column: 1 / -1; }
+
+/* 科研项目列表 */
+.research-list { display: flex; flex-direction: column; gap: 20px; }
+.research-item {
+  background: rgba(30, 41, 59, 0.4);
+  border: 1px solid #1e293b;
+  padding: 25px;
+  border-radius: 8px;
+}
+.status-indicator {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+.completed { background: rgba(52, 211, 153, 0.1); color: #34d399; border: 1px solid #34d399; }
+.active { background: rgba(56, 189, 248, 0.1); color: #38bdf8; border: 1px solid #38bdf8; }
+.research-details h3 { color: #f8fafc; margin-bottom: 10px; }
+.research-details p { font-size: 14px; }
+
+/* 终端代码区 */
+.btn-primary {
+  display: inline-block;
+  background: #38bdf8;
+  color: #0f172a;
+  padding: 10px 20px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 20px;
+  transition: opacity 0.3s;
+}
+.btn-primary:hover { opacity: 0.8; }
+
+.terminal {
+  background: #0f172a;
+  border: 1px solid #1e293b;
+  border-radius: 8px;
   overflow: hidden;
 }
-
-.code-header {
-  background: #44475a;
-  padding: 8px 15px;
-  display: flex;
-  gap: 8px;
+.terminal-header {
+  background: #1e293b;
+  padding: 10px 15px;
+  font-family: monospace;
+  font-size: 12px;
+  color: #94a3b8;
 }
-
-.dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-}
-.red { background: #ff5f56; }
-.yellow { background: #ffbd2e; }
-.green { background: #27c93f; }
-
 pre {
-  color: #f8f8f2;
-  padding: 15px;
-  margin: 0;
+  padding: 20px;
   overflow-x: auto;
+  color: #34d399; /* 终端绿色字体 */
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  line-height: 1.5;
 }

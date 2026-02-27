@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ting Jiang | Algorithm Codebase</title>
+  <style>
+    /* 保持与主页一致的极简风格 */
+    :root {
+      --bg-color: #f8fafc; --card-bg: #ffffff;
+      --text-main: #334155; --text-light: #64748b;
+      --accent-blue: #0ea5e9; --border-color: #e2e8f0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background-color: var(--bg-color); font-family: 'Inter', Arial, sans-serif; color: var(--text-main); line-height: 1.6; padding: 40px 20px; }
+    .container { max-width: 1000px; margin: 0 auto; }
+    
+    /* 顶部导航返回按钮 */
+    .top-nav { margin-bottom: 30px; }
+    .top-nav a { text-decoration: none; color: var(--accent-blue); font-weight: bold; display: flex; align-items: center; gap: 5px; }
+    .top-nav a:hover { text-decoration: underline; }
+
+    /* 分类大框架样式 */
+    .category-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 30px; margin-bottom: 30px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+    .category-title { font-size: 22px; color: #0f172a; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #f1f5f9; }
+    
+    /* 分支样式 */
+    .branch-item { margin-bottom: 30px; }
+    .branch-title { font-size: 18px; color: var(--accent-blue); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+    .branch-title::before { content: '⚡'; font-size: 16px; }
+    .branch-desc { font-size: 14px; color: var(--text-light); margin-bottom: 15px; }
+
+    /* 代码块极客样式 */
+    .code-box { background: #1e293b; color: #e2e8f0; padding: 20px; border-radius: 8px; overflow-x: auto; font-family: 'Courier New', Courier, monospace; font-size: 14px; line-height: 1.5; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="top-nav">
+    <a href="index.html">← 返回个人主页 (Back to Home)</a>
+  </div>
+
+  <h1 style="margin-bottom: 30px; font-size: 28px; color: #0f172a;">Algorithm Codebase (底层算法库)</h1>
+
+  <div class="category-card">
+    <h2 class="category-title">📂 分类一：精确算法 (Exact Algorithms)</h2>
+
+    <div class="branch-item">
+      <h3 class="branch-title">分支 1：Branch and Cut (分支裁剪法)</h3>
+      <p class="branch-desc">应用场景：用于氢能源供应链优化中的两阶段选址与路径求解。</p>
+      
+      <div class="code-box">
+<pre><code># 这是一个代码示例，直接把你的代码粘贴替换掉这里的内容
+def branch_and_cut_solver(model, data):
+    # 初始化 Gurobi 环境
+    print("Initializing Branch and Cut solver...")
+    model.optimize(my_callback_function)
+    
+    if model.status == GRB.OPTIMAL:
+        return model.objVal
+    return None
+</code></pre>
+      </div>
+    </div>
+    
+    <div class="branch-item">
+      <h3 class="branch-title">分支 2：Benders Decomposition (Benders分解法)</h3>
+      <p class="branch-desc">应用场景：处理大规模结构耦合的物流网络问题。</p>
+      <div class="code-box">
+<pre><code># 你的 Benders 分解代码放在这里
+def benders_master_problem():
+    pass
+</code></pre>
+      </div>
+    </div>
+
+  </div> <div class="category-card">
+    <h2 class="category-title">📂 分类二：启发式与数学分解 (Heuristics & Decomposition)</h2>
+
+    <div class="branch-item">
+      <h3 class="branch-title">分支 1：ADMM (交替方向乘子法)</h3>
+      <p class="branch-desc">应用场景：氢气供需网络中的分布式计算，提升求解效率。</p>
+      <div class="code-box">
+<pre><code># 你的 ADMM 算法 Python 代码
+def admm_iteration(rho, max_iter):
+    # ADMM 核心循环
+    for i in range(max_iter):
+        update_x()
+        update_z()
+        update_y()
+</code></pre>
+      </div>
+    </div>
+
+  </div> </div>
+
+</body>
+</html>
