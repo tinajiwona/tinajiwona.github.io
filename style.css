@@ -1,0 +1,143 @@
+/* 整体游戏背景和字体 */
+body {
+  background-color: #fce4ec; /* 浅浅的樱花粉背景 */
+  font-family: 'Comic Sans MS', 'PingFang SC', sans-serif; /* 可爱的字体 */
+  margin: 0;
+  padding: 20px;
+}
+
+/* 主容器：左右分栏 */
+.game-world {
+  display: flex;
+  max-width: 1000px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 20px;
+  border: 4px solid #333; /* 粗边框更有游戏感 */
+  box-shadow: 8px 8px 0px #ffb7b2; /* 可爱的彩色阴影 */
+  overflow: hidden;
+  height: 90vh;
+}
+
+/* 左侧菜单 */
+.sidebar {
+  width: 30%;
+  background-color: #b2e2f2; /* 薄荷蓝 */
+  padding: 30px;
+  border-right: 4px solid #333;
+  text-align: center;
+}
+
+.avatar {
+  font-size: 60px;
+  background: white;
+  border: 4px solid #333;
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  line-height: 100px;
+  margin: 0 auto;
+}
+
+.menu {
+  list-style: none;
+  padding: 0;
+  margin-top: 30px;
+  text-align: left;
+}
+
+.menu li {
+  background: white;
+  margin-bottom: 15px;
+  padding: 10px 15px;
+  border-radius: 10px;
+  border: 2px solid #333;
+  box-shadow: 3px 3px 0px #333;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s;
+}
+
+.menu li:hover {
+  transform: translateY(-2px);
+  box-shadow: 5px 5px 0px #333;
+  background-color: #fdfd96; /* 悬停变鹅黄色 */
+}
+
+/* 右侧内容区 */
+.main-content {
+  width: 70%;
+  padding: 40px;
+  overflow-y: auto;
+}
+
+.section-title {
+  color: #ff6b6b;
+  border-bottom: 3px dashed #ffb7b2;
+  padding-bottom: 10px;
+}
+
+/* 从下往上的时间轴魔法 */
+.timeline {
+  display: flex;
+  flex-direction: column-reverse; /* 就是这句代码让它从下往上的！ */
+  gap: 15px;
+}
+
+.timeline-item {
+  background: #f8f9fa;
+  padding: 15px;
+  border-left: 5px solid #ffb7b2;
+  border-radius: 0 10px 10px 0;
+}
+
+.date {
+  font-weight: bold;
+  color: #888;
+}
+
+/* 代码终端样式 */
+.mt-top { margin-top: 40px; }
+
+.github-btn {
+  display: inline-block;
+  background: #ff6b6b;
+  color: white;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 2px solid #333;
+  box-shadow: 3px 3px 0px #333;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.code-box {
+  background: #282a36; /* 暗色终端背景 */
+  border-radius: 10px;
+  border: 2px solid #333;
+  overflow: hidden;
+}
+
+.code-header {
+  background: #44475a;
+  padding: 8px 15px;
+  display: flex;
+  gap: 8px;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+.red { background: #ff5f56; }
+.yellow { background: #ffbd2e; }
+.green { background: #27c93f; }
+
+pre {
+  color: #f8f8f2;
+  padding: 15px;
+  margin: 0;
+  overflow-x: auto;
+}
