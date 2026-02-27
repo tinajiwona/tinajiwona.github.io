@@ -3,59 +3,347 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>我的冒险者面板</title>
-  <link rel="stylesheet" href="style.css"> 
+  <title>Ting Jiang | Routing Optimization & Supply Chain</title>
+  <style>
+    /* 全局极简科技风设定 */
+    :root {
+      --bg-color: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #334155;
+      --text-light: #64748b;
+      --accent-blue: #0ea5e9; 
+      --accent-green: #10b981; 
+      --accent-purple: #8b5cf6;
+      --accent-red: #f43f5e;
+      --border-color: #e2e8f0;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg-color);
+      background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+      background-size: 20px 20px;
+      font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+      color: var(--text-main);
+      line-height: 1.6;
+      padding: 40px 20px;
+      position: relative; /* 语言切换组件定位基准 */
+    }
+
+    /* ================= 🌟 新增：右上角语言切换器 ================= */
+    .lang-switcher {
+      position: absolute;
+      top: 25px;
+      right: 40px;
+      display: flex;
+      gap: 8px;
+      z-index: 100;
+    }
+    .lang-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-light);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+    .lang-btn:hover {
+      border-color: var(--accent-blue);
+      color: var(--accent-blue);
+    }
+    .lang-btn.active {
+      background: var(--accent-blue);
+      color: #ffffff;
+      border-color: var(--accent-blue);
+      box-shadow: 0 4px 6px rgba(14, 165, 233, 0.2);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 40px auto 0; /* 顶部留出空间给语言切换器 */
+      display: flex;
+      gap: 30px;
+      align-items: flex-start;
+    }
+
+    /* ================= 左侧固定信息栏 ================= */
+    .sidebar {
+      width: 300px;
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      position: sticky;
+      top: 40px;
+      flex-shrink: 0;
+    }
+
+    .avatar {
+      width: 100px; height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--accent-blue);
+      padding: 3px;
+      margin-bottom: 20px;
+    }
+
+    .sidebar h1 { font-size: 24px; margin-bottom: 5px; color: #0f172a; }
+    .sidebar .title { font-size: 14px; color: var(--accent-blue); font-weight: bold; margin-bottom: 20px; }
+    .sidebar .contact { font-size: 13px; color: var(--text-light); line-height: 2; margin-bottom: 30px; }
+    
+    .nav-links a {
+      display: block;
+      padding: 10px 15px;
+      color: var(--text-main);
+      text-decoration: none;
+      font-weight: 500;
+      border-radius: 6px;
+      margin-bottom: 8px;
+      transition: background 0.2s;
+    }
+    .nav-links a:hover { background: #f1f5f9; color: var(--accent-blue); }
+
+    /* ================= 右侧内容区 ================= */
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .section-card {
+      background: var(--card-bg);
+      padding: 35px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+
+    .section-title {
+      font-size: 20px;
+      color: #0f172a;
+      margin-bottom: 30px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-title::before {
+      content: '';
+      display: block;
+      width: 8px; height: 24px;
+      background: var(--accent-blue);
+      border-radius: 4px;
+    }
+
+    /* 时间轴与各模块样式略（保持一致）... */
+    .timeline-list { position: relative; padding-left: 30px; border-left: 2px solid var(--border-color); }
+    .time-node { position: relative; margin-bottom: 35px; }
+    .time-node:last-child { margin-bottom: 0; }
+    .time-node::before { content: ''; position: absolute; left: -37px; top: 5px; width: 12px; height: 12px; border-radius: 50%; background: white; border: 2px solid var(--accent-blue); }
+    .time-date { font-family: monospace; font-size: 13px; color: var(--accent-blue); font-weight: 600; margin-bottom: 8px; display: inline-block; background: #e0f2fe; padding: 3px 8px; border-radius: 4px; }
+    .time-content h3 { font-size: 16px; color: #1e293b; margin-bottom: 8px; }
+    .time-content p { font-size: 14px; color: var(--text-light); line-height: 1.7; }
+
+    .industry-item { background: #f8fafc; border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; margin-bottom: 20px; }
+    .industry-item h3 { font-size: 16px; color: #0f172a; margin-bottom: 5px; }
+    .industry-date { font-size: 13px; color: var(--text-light); margin-bottom: 10px; font-family: monospace; }
+    .industry-item p { font-size: 14px; color: var(--text-main); margin-bottom: 15px; }
+
+    .kol-container { display: flex; gap: 15px; flex-wrap: wrap; }
+    .kol-card { flex: 1; min-width: 250px; display: flex; flex-direction: column; padding: 15px; background: #fff1f2; border: 1px solid #fecdd3; border-radius: 8px; text-decoration: none; transition: all 0.2s; }
+    .kol-card:hover { transform: translateY(-3px); box-shadow: 0 4px 12px rgba(244, 63, 94, 0.15); }
+    .kol-title { font-size: 15px; font-weight: bold; color: var(--accent-red); margin-bottom: 6px; display: flex; align-items: center; gap: 8px;}
+    .kol-desc { font-size: 13px; color: #9f1239; line-height: 1.5; }
+
+    .research-item { border-left: 2px solid var(--border-color); padding-left: 20px; margin-bottom: 30px; position: relative; }
+    .research-item::before { content: ''; position: absolute; left: -6px; top: 5px; width: 10px; height: 10px; background: var(--accent-blue); border-radius: 50%; }
+    .research-item h3 { font-size: 17px; margin-bottom: 10px; color: #1e293b; }
+    .research-item p { font-size: 14.5px; color: var(--text-light); margin-bottom: 8px; }
+    
+    .tag { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-right: 8px; margin-bottom: 10px; }
+    .tag-green { background: #d1fae5; color: #047857; }
+    .tag-blue { background: #dbeafe; color: #1d4ed8; }
+    .tag-gray { background: #f1f5f9; color: #475569; }
+
+    /* ================= 未来预告模块 ================= */
+    .future-agent-card { background: linear-gradient(to right bottom, #ffffff, #f5f3ff); border: 1px solid #ddd6fe; position: relative; overflow: hidden; }
+    .future-agent-card::after { content: ''; position: absolute; right: -20px; top: -20px; width: 150px; height: 150px; background-image: repeating-linear-gradient(45deg, #ede9fe 0, #ede9fe 1px, transparent 1px, transparent 15px); opacity: 0.5; }
+    .future-title { color: var(--accent-purple); font-weight: bold; margin-bottom: 15px; font-size: 22px; }
+    .agent-architecture { display: flex; gap: 15px; margin-top: 20px; }
+    .arch-box { flex: 1; background: white; border: 1px solid #e5e7eb; padding: 15px; border-radius: 8px; font-size: 13px; }
+    .arch-box h4 { color: #4b5563; margin-bottom: 8px; font-size: 14px; }
+  </style>
 </head>
 <body>
 
-  </body>
-</html>
-<div class="game-world">
-  <div class="sidebar">
-    <div class="avatar">👾</div>
-    <h2>Ting Jiang</h2>
-    <p>jiangting@inha.edu</p>
-    <ul class="menu">
-      <li>🛡️ 冒险轨迹 (经历)</li>
-      <li>📖 技能树 (课程)</li>
-      <li>📜 主线任务 (论文)</li>
-      <li>💻 极客终端 (GitHub)</li>
-    </ul>
-  </div>
-
-  <div class="main-content">
-    
-    <h3 class="section-title">🛡️ 冒险轨迹</h3>
-    <div class="timeline">
-      <div class="timeline-item">
-        <span class="date">2020年</span>
-        <p>诞生在新手村 (进入大学)</p>
-      </div>
-      <div class="timeline-item">
-        <span class="date">2022年</span>
-        <p>打败了“期末考试”大魔王</p>
-      </div>
-      <div class="timeline-item">
-        <span class="date">2024年</span>
-        <p>解锁新地图：开始写论文啦！</p>
-      </div>
-      <div class="timeline-item">...</div>
-      
-    </div>
-
-    <h3 class="section-title mt-top">💻 极客终端 (GitHub)</h3>
-    <a href="https://github.com" target="_blank" class="github-btn">PRESS START (前往 GitHub)</a>
-    <div class="code-box">
-      <div class="code-header">
-        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
-      </div>
-      <pre><code>
-// 这里是你的代码展示区
-function helloWorld() {
-  console.log("Hello, 冒险者！");
-}
-      </code></pre>
-    </div>
-
-  </div>
+<div class="lang-switcher">
+  <a href="index.html" class="lang-btn active">中文</a>
+  <a href="index_en.html" class="lang-btn">EN</a>
+  <a href="index_ko.html" class="lang-btn">한국어</a>
 </div>
+
+<div class="container">
+  <aside class="sidebar">
+    <img src="profile.jpg" alt="Ting Jiang" class="avatar">
+    <h1>Ting Jiang</h1>
+    <div class="title">Ph.D. Researcher | VRP & Supply Chain</div>
+    <div class="contact">
+      <p>📍 Inha University, South Korea</p>
+      <p>✉️ jiang2449792189@163.com</p>
+    </div>
+    <div class="nav-links">
+      <a href="#education">🎓 教育与学术履历</a>
+      <a href="#industry">💼 产业实践与KOL</a>
+      <a href="#research">📊 核心研究方向</a>
+      <a href="#code">💻 底层算法与开源</a>
+      <a href="#future">🚀 未来方向预告</a>
+    </div>
+  </aside>
+
+  <main class="main-content">
+
+    <section id="education" class="section-card">
+      <h2 class="section-title">教育与学术履历 (Education & Academic)</h2>
+      <div class="timeline-list">
+        <div class="time-node">
+          <div class="time-date">2021.09 - 2026.06(预计)</div>
+          <div class="time-content">
+            <h3>仁荷大学 (韩国 Top15) | 硕博连读</h3>
+            <p>主修运筹与供应链优化。GPA 稳居前 1%。荣获优秀留学生全额奖学金，并获得韩国政府科研基金资助。</p>
+          </div>
+        </div>
+        <div class="time-node">
+          <div class="time-date">2024.12 - 2025.01</div>
+          <div class="time-content">
+            <h3>华北水利水电大学 | 助理教师</h3>
+            <p>担任《物流管理》课程助教，中英双语讲授运输、仓储、选址策略等核心内容，并拓展智慧物流、智能仓储等前沿科技主题。</p>
+          </div>
+        </div>
+        <div class="time-node">
+          <div class="time-date">2016.09 - 2020.06</div>
+          <div class="time-content">
+            <h3>西华大学 | 经济学 (本科)</h3>
+            <p>打下扎实的经济学与系统分析理论基础。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="industry" class="section-card">
+      <h2 class="section-title">产业实践与商业落地 (Industry Practice)</h2>
+      
+      <div class="industry-item">
+        <h3>跨境事业部（京东） | 采销助理岗</h3>
+        <div class="industry-date">2025.04 - 至今</div>
+        <p>负责跨境采销控全流程，新增韩国直邮/保税SKU 182个，拉通跨部门获30万营销资源，通过销售区域分析调整分仓策略，预计降低仓配成本2%。</p>
+      </div>
+
+      <div class="industry-item">
+        <h3>跨境电商主理人 & 自媒体矩阵运营</h3>
+        <div class="industry-date">2024.11 - 2025.03</div>
+        <p>敏锐捕捉市场热点，直连韩国大型商超供应链，叠加顺丰CC直邮服务成功压缩单件物流成本达10%，实现月均GMV突破10万元。</p>
+        
+        <div class="kol-container">
+          <a href="#" target="_blank" class="kol-card">
+            <span class="kol-title">🍠 @拉面脑袋吃吃吃</span>
+            <span class="kol-desc"><strong>粉丝数：2000+</strong><br>垂直赛道：在韩探店博主。深挖韩国本土特色餐饮与网红打卡点。</span>
+          </a>
+          <a href="#" target="_blank" class="kol-card">
+            <span class="kol-title">🍠 @在韩tina欧尼</span>
+            <span class="kol-desc"><strong>粉丝数：3000+</strong><br>垂直赛道：在韩带货/助手博主。专注韩国好物分享与在地生活指南。</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="research" class="section-card">
+      <h2 class="section-title">核心研究方向 (Research Focus)</h2>
+      
+      <div class="research-item">
+        <h3>氢能源供应链网络全局优化与战略设计</h3>
+        <span class="tag tag-blue">SCI Q2 Published</span>
+        <span class="tag tag-green">Exact&Mathmatic Algorithm</span>
+        <span class="tag tag-gray">2021.9 - 至今</span>
+        <p>结合韩国不同区域的氢气供需差异，重点关注由副产氢供应过剩所导致的资源浪费问题，进行网络优化部署。在初期阶段，采用两阶段选址与路径优化模型；在中后期阶段，构建选址-路径一体化优化模型。</p>
+        <p><strong>底层求解：</strong> 设计了 Branch and Cut（精确算法）与 ADMM（数学启发式算法），规模扩大时利用启发式方法提升计算效率。使副产品氢气利用率提高10%，关键工业领域提升70%。</p>
+      </div>
+
+      <div class="research-item" style="--accent-blue: var(--accent-green);">
+        <h3>智慧物流：无人机物流运输优化</h3>
+        <span class="tag tag-blue">Q1 Under Review</span>
+        <span class="tag tag-blue">IEEE-IV 会议</span>
+        <span class="tag tag-green">Lagrangian Relaxation Algorithm</span>
+        <span class="tag tag-gray">2024.9 - 至今</span>
+        <p>受韩国山区地形和道路拥堵问题的影响，传统卡车配送效率受限。结合韩国本土电商平台取货-配送一体化需求，设计了基于无人机的取货（pick-up）与运输（delivery）协同优化方案。</p>
+        <p><strong>底层求解：</strong> 针对动态风场的不确定性（电池消耗呈非线性趋势），将能源消耗模型线性化，并采用动态规划结合拉格朗日松弛（Lagrangian Relaxation）进行求解。</p>
+      </div>
+
+      <div class="research-item">
+        <h3>公共交通辅助的多无人机包裹配送优化 (PT-MDPD-AP)</h3>
+        <span class="tag tag-blue">Q1 Under Review</span>
+        <span class="tag tag-green">Heuristic Algorithm</span>
+        <span class="tag tag-gray">2024.9 - 至今</span>
+        <p>公共交通作为一种潜在的协同运输模式，能够有效降低无人机的独立飞行成本。模型允许无人机在任意地点起降，无需专门前往车站换乘，从而提升配送灵活性，最小化配送总时间并延长使用寿命。</p>
+        <p><strong>底层求解：</strong> 提出基于鱼群和标签算法的PDDAP算法，旨在优化无人机的起降时机与地点，最小化配送总时间，并延长无人机使用寿命。算法优于现有方法，在多个测试场景中展现出更高的配送效率和更低的成本。</p>
+    </div>
+
+      <div class="research-item" style="--accent-blue: var(--accent-green);">
+        <h3>生鲜产品无人机卡车协同配送</h3>
+        <span class="tag tag-green">协同规划</span>
+        <span class="tag tag-green">Exact Algorithm</span>
+        <span class="tag tag-gray">2025.1 - 至今</span>
+        <p>针对冷链运输当日达、温控要求以及生鲜产品生命周期较短的特点，通过动态调整不同生命周期产品的配送优先级，并制定灵活的市场折扣机制，以最大化产品价值和销售效率。无人机用于快速补货与短程配送，卡车承担大规模运输任务。</p>
+        <p><strong>底层求解：</strong> 设计启发式算法以及 Branch and cut 算法进行求解。</p>
+      </div>
+    </section>
+
+    <section id="code" class="section-card" style="background: #f8fafc; border: 1px dashed var(--accent-blue);">
+      <h2 class="section-title">底层算法与开源仓库 (Code & Open Source)</h2>
+      <p style="margin-bottom: 20px; color: var(--text-light); font-size: 15px;">
+        这里收录了我在运筹优化与 VRP 求解过程中手写的核心底层算法框架，涵盖精确求解器（Branch-and-Cut 等）、数学分解法（ADMM 等）以及动态规划模块。
+      </p>
+      <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+        <a href="code.html" style="background: var(--accent-blue); color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; transition: opacity 0.2s;" onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
+          💻 浏览我的代码知识库
+        </a>
+        <a href="https://github.com/tinajiwona" target="_blank" style="background: #24292e; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; transition: opacity 0.2s;" onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
+          🐙 前往 GitHub 主页
+        </a>
+      </div>
+    </section>
+
+    <section id="future" class="section-card future-agent-card">
+      <div class="future-title">❖ Future Vision: GenAI Routing Solver Framework</div>
+
+      <div style="text-align: center; margin-bottom: 25px;">
+        <img src="vrp-agent-framework.png" alt="GenAI Routing Solver Framework 架构图" style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid #ddd6fe; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);">
+        <p style="font-size: 12px; color: var(--text-light); margin-top: 8px;">* 基于前沿运筹与 AI 研究构建的 VRP Agent 架构示意图 *</p>
+      </div>
+
+      <p style="color: #4c1d95; font-size: 15px; margin-bottom: 20px;">
+        致力于跨越传统运筹学底层求解器与实际应用之间的 "Research Gap"。通过引入大语言模型 (LLM)，构建自动化、智能化的路径规划推理 Agent。
+      </p>
+      
+      <div class="agent-architecture">
+        <div class="arch-box">
+          <h4>🧠 LLM-based Reasoning Agent</h4>
+          <p>Target: 实现自动化的 VRP（车辆路径规划）建模与优化目标设定，理解复杂的现实业务约束。</p>
+        </div>
+        <div class="arch-box">
+          <h4>⚙️ Dynamic Orchestration</h4>
+          <p>Action: 动态调度底层求解器矩阵（如拉格朗日松弛、ADMM、启发式算法），以解决全新的、复杂的物流网络问题。</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+</body>
+</html>
